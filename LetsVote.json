@@ -1,0 +1,150 @@
+{
+    "ApplicationName": "LetsVote",
+    "DisplayName": "Lets Vote",
+    "Description": "A online platform to incentivize voting.",
+    "ApplicationRoles": [
+      {
+        "Name": "User",
+        "Description": "A Common Person"
+      },
+      {
+        "Name": "Official",
+        "Description": "A Voting Official"
+      }
+    ],
+    "Workflows": [
+      {
+        "Name": "LetsVote",
+        "DisplayName": "Lets Vote",
+        "Description": "Handles the logic for online application and voting scenario.",
+        "Initiators": [ "User" ],
+        "StartState":  "ForApproval",
+        "Properties": [
+          {
+            "Name": "State",
+            "DisplayName": "State",
+            "Description": "Holds the state of the application",
+            "Type": {
+              "Name": "state"
+            }
+          },
+          {
+            "Name": "Voted",
+            "DisplayName": "Voted",
+            "Description": "Tells If The Person Has Voted",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "Aadhar",
+            "DisplayName":"Aadhar",
+            "Description": "Aadhar Number Of The Applicant",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "InstanceOwner",
+            "DisplayName": "Instance Owner",
+            "Description": "The applicant",
+            "Type": {
+              "Name": "User"
+            }
+          }
+        ],
+        "Constructor": {
+          "Parameters": [
+            {
+              "Name": "aadhar",
+              "Description": "Aadhar Number Of The Applicant",
+              "DisplayName": "aadhar",
+              "Type": {
+                "Name": "string"
+              }
+            }
+          ]
+        },
+        "Functions": [
+          {
+            "Name": "Approve",
+            "DisplayName": "Approve",
+            "Description": "Approve The User's Application",
+            "Parameters": []
+          },
+          {
+            "Name": "Reject",
+            "DisplayName": "Reject",
+            "Description": "Reject The User's Application",
+            "Parameters": []
+          },
+          {
+            "Name": "MarkVoted",
+            "DisplayName": "MarkVoted",
+            "Description": "Mark The User Has Voted",
+            "Parameters": []
+          }
+        ],
+        "States": [
+          {
+            "Name": "ForApproval",
+            "DisplayName": "For Approval",
+            "Description": "The Application is submitted for approval",
+            "PercentComplete": 20,
+            "Style": "Success",
+            "Transitions": [
+              {
+                "AllowedRoles": [ "Official" ],
+                "AllowedInstanceRoles": [],
+                "Description": "Approve The Application",
+                "Function": "Approve",
+                "NextStates": [ "Approved" ],
+                "DisplayName": "Approve The Application"
+              },
+              {
+                "AllowedRoles": [ "Official" ],
+                "AllowedInstanceRoles": [],
+                "Description": "Reject The Application",
+                "Function": "Reject",
+                "NextStates": ["Rejected"],
+                "DisplayName": "Reject The Application"
+              }
+            ]
+          },
+          {
+            "Name": "Approved",
+            "DisplayName": "Approved",
+            "Description": "This Application Is Approved",
+            "PercentComplete": 60,
+            "Style": "Success",
+            "Transitions": [
+              {
+                "AllowedRoles": [ "Official" ],
+                "AllowedInstanceRoles": [],
+                "Description": "Mark That The User Has Voted",
+                "Function": "MarkVoted",
+                "NextStates": [ "Voted" ],
+                "DisplayName": "Mark As Voted"
+              }
+            ]
+          },
+          {
+            "Name": "Rejected",
+            "DisplayName": "Rejected",
+            "Description": "This Application is Rejected",
+            "PercentComplete": 0,
+            "Style": "Success",
+            "Transitions": []
+          },
+          {
+            "Name": "Voted",
+            "DisplayName": "Voted",
+            "Description": "This User Has Voted In The Election",
+            "PercentComplete": 100,
+            "Style": "Success",
+            "Transitions": []
+          }
+        ]
+      }
+    ]
+  }
